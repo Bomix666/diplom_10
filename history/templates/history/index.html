@@ -10,21 +10,29 @@
 
 </head>
 <body class="bg-light">
-    <header class="bg-primary text-white py-4 mb-4">
-        <div class="container">
+    <header>
+        <div style="background: #8b4513; border-radius: 0 0 1rem 1rem;">
+            <div class="container py-3">
+                <div class="row mb-2">
+                    <div class="col-md-12 d-flex justify-content-between align-items-center">
+                        <h1 class="h3 mb-0 text-light">Каталог исторических событий</h1>
+                        <div>
+                            {% if user.is_authenticated %}
+                                <span class="me-3 text-light">Здравствуйте, {{ user.username }}!</span>
+                                <a href="/logout/" class="btn btn-outline-light">Выйти</a>
+                            {% else %}
+                                <a href="/login/" class="btn btn-outline-light me-2">Войти</a>
+                                <a href="/register/" class="btn btn-success">Регистрация</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mt-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h1 class="h3 mb-1">Каталог исторических событий</h1>
                     <p class="mb-0">Просматривайте, фильтруйте и добавляйте значимые события</p>
-                </div>
-                <div>
-                    {% if user.is_authenticated %}
-                        <span class="me-2">Здравствуйте, <b>{{ user.username }}</b>!</span>
-                        <a href="/logout/" class="btn btn-outline-light btn-sm">Выйти</a>
-                    {% else %}
-                        <a href="/login/" class="btn btn-outline-light btn-sm me-2">Войти</a>
-                        <a href="/register/" class="btn btn-light btn-sm">Регистрация</a>
-                    {% endif %}
                 </div>
             </div>
         </div>
