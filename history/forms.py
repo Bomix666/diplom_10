@@ -55,4 +55,13 @@ class CustomAuthenticationForm(AuthenticationForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'date', 'description', 'image', 'categories', 'tags', 'region']
+        fields = ['title', 'date', 'description', 'image', 'categories', 'tags']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['categories'].widget.attrs.update({
+            'class': 'form-select rounded-pill',
+        })
+        self.fields['tags'].widget.attrs.update({
+            'class': 'form-select rounded-pill',
+        })

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ event.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card p-4 shadow-sm">
+                    <h2 class="mb-3">{{ event.title }}</h2>
+                    <div class="mb-2 text-secondary">
+                        <b>Дата:</b> {{ event.date }}<br>
+                        <b>Категории:</b> {% for cat in event.categories.all %}<span class="badge bg-primary me-1">{{ cat.name }}</span>{% endfor %}
+                        {% if event.region %}<br><b>Регион:</b> {{ event.region }}{% endif %}
+                    </div>
+                    {% if event.image %}
+                        <img src="{{ event.image.url }}" class="img-fluid rounded mb-3 border shadow-sm" alt="{{ event.title }}" style="max-height: 340px; object-fit: contain; background: #f8f9fa;">
+                    {% endif %}
+                    <p class="fs-5">{{ event.description }}</p>
+                    <div class="mt-3">
+                        <a href="/" class="btn btn-outline-primary"><i class="bi bi-arrow-left"></i> Назад к списку</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

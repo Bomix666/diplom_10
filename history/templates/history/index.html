@@ -5,6 +5,8 @@
     <title>Исторические события</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Choices.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
 </head>
 <body class="bg-light">
@@ -29,32 +31,39 @@
     </header>
     <main class="container">
         <div class="card mb-4 p-3">
-            <form class="row g-2 align-items-center">
+            <form class="row g-2 align-items-center" action="/" method="get" autocomplete="off">
                 <div class="col-md-5">
-                    <input type="text" class="form-control" placeholder="Поиск по названию или описанию..." />
+                    <input type="text" name="q" class="form-control" placeholder="Поиск по названию или описанию..." value="{{ request.GET.q|default:'' }}" />
                 </div>
                 <div class="col-md-3">
-                    <select class="form-select">
-                        <option>Все категории</option>
+                    <select class="form-select" id="filter_categories" name="categories" multiple>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}" {% if cat.id|stringformat:'s' in selected_categories %}selected{% endif %}>{{ cat.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <select class="form-select">
-                        <option>Все регионы</option>
+                    <select class="form-select" id="filter_regions" name="regions" multiple>
+                        {% for region in regions %}
+                            <option value="{{ region }}" {% if region in selected_regions %}selected{% endif %}>{{ region }}</option>
+                        {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-1 text-end">
-                    {% if user.is_authenticated %}
-                        <a href="/add/" class="btn btn-success w-100">Добавить</a>
-                    {% endif %}
-                </div>
+                <div class="col-md-1 d-flex flex-column gap-2 align-items-stretch justify-content-between">
+    <button type="submit" class="btn btn-outline-primary btn-lg d-flex align-items-center justify-content-center w-100 h-100 text-dark" style="border-radius:2rem; min-height:48px; color:#111;">
+        <i class="bi bi-search me-2"></i> <span style="color:#111;">Поиск</span>
+    </button>
+    {% if user.is_authenticated %}
+        <a href="/add/" class="btn btn-success btn-lg d-flex align-items-center justify-content-center w-100" style="border-radius:2rem; min-height:48px;">Добавить</a>
+    {% endif %}
+</div>
             </form>
         </div>
         <div class="list-group">
             {% for event in events %}
             <div class="list-group-item mb-2">
                 <div class="d-flex w-100 justify-content-between align-items-center">
-                    <h5 class="mb-1">{{ event.title }}</h5>
+                    <h5 class="mb-1"><a href="/event/{{ event.id }}/" class="link-primary text-decoration-none">{{ event.title }}</a></h5>
                     <small class="text-muted">{{ event.date }}</small>
                 </div>
                 <div class="mb-2 text-secondary">
@@ -69,4 +78,32 @@
     </main>
 </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Choices.js JS -->
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            if (document.getElementById('filter_categories')) {
+                new Choices('#filter_categories', {
+                    removeItemButton: true,
+                    placeholder: true,
+                    placeholderValue: 'Выберите категории',
+                    searchResultLimit: 10,
+                    noResultsText: 'Нет совпадений',
+                    noChoicesText: 'Нет вариантов',
+                    itemSelectText: 'Выбрать',
+                });
+            }
+            if (document.getElementById('filter_regions')) {
+                new Choices('#filter_regions', {
+                    removeItemButton: true,
+                    placeholder: true,
+                    placeholderValue: 'Выберите регионы',
+                    searchResultLimit: 10,
+                    noResultsText: 'Нет совпадений',
+                    noChoicesText: 'Нет вариантов',
+                    itemSelectText: 'Выбрать',
+                });
+            }
+        });
+    </script>
 </html>
