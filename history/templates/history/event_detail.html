@@ -13,6 +13,9 @@
             <div class="col-md-8">
                 <div class="card p-4 shadow-sm">
                     <h2 class="mb-3">{{ event.title }}</h2>
+{% if event.status == 'pending' %}
+  <span class="badge bg-warning text-dark mb-2">Непроверенное</span>
+{% endif %}
                     <div class="mb-2 text-secondary">
                         <b>Дата:</b> {{ event.date }}<br>
                         <b>Категории:</b> {% for cat in event.categories.all %}<span class="badge bg-primary me-1">{{ cat.name }}</span>{% endfor %}

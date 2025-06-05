@@ -14,6 +14,10 @@ class Tag(models.Model):
         return self.name
 
 class Event(models.Model):
+    STATUS_CHOICES = [
+        ('pending', 'Непроверенное'),
+        ('approved', 'Проверенное'),
+    ]
     title = models.CharField(max_length=200)
     date = models.DateField()
     description = models.TextField()
@@ -21,6 +25,7 @@ class Event(models.Model):
     categories = models.ManyToManyField(Category, related_name='events')
     tags = models.ManyToManyField(Tag, related_name='events', blank=True)
     region = models.CharField(max_length=100, blank=True)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

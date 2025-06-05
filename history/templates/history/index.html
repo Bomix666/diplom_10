@@ -63,7 +63,10 @@
             {% for event in events %}
             <div class="list-group-item mb-2">
                 <div class="d-flex w-100 justify-content-between align-items-center">
-                    <h5 class="mb-1"><a href="/event/{{ event.id }}/" class="link-primary text-decoration-none">{{ event.title }}</a></h5>
+                    <h5 class="mb-1"><a href="{% url 'event_detail' event.id %}" class="text-decoration-none text-dark fw-bold">{{ event.title }}
+{% if event.status == 'pending' %}
+  <span class="badge bg-warning text-dark ms-2">Непроверенное</span>
+{% endif %}</a></h5>
                     <small class="text-muted">{{ event.date }}</small>
                 </div>
                 <div class="mb-2 text-secondary">

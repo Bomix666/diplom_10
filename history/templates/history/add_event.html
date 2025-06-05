@@ -33,6 +33,8 @@
                     <span class="input-group-text"><i class="bi bi-image"></i></span>
                 {% elif field.name == 'description' %}
                     <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                {% elif field.name == 'region' %}
+                    <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
                 {% endif %}
                 {{ field }}
             </div>
